@@ -1,4 +1,4 @@
-`Course Project` Regression Models
+`Practice Quiz` Regression Models
 ================
 
 -   👨🏻‍💻 Author: Anderson H Uyekita
