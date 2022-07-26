@@ -1,0 +1,452 @@
+---
+title: '`Course Project` Regression Models'
+author: '`r if(knitr::is_html_output()) {"&#x1f468;&#x1F3FB;&#x200d;&#x1f4bb; Anderson H Uyekita"} else {NULL}`'
+output:
+  github_document: default
+  html_document:
+    self_contained: true
+    toc: true
+    toc_depth: 4
+    toc_float:
+      collapsed: false
+      smooth_scroll: true
+params:
+  author: 'Anderson H Uyekita'
+  course: 'Regression Models'
+  course_url: 'https://www.coursera.org/learn/regression-models'
+  specialization: 'Data Science: Foundations using R Specialization'
+  specialization_url: 'https://www.coursera.org/specializations/data-science-foundations-r'
+  instructor: 'Brian Caffo'
+  course_start: !r lubridate::ymd('2022/07/23', tz = 'America/Sao_Paulo')
+  course_finish: !r lubridate::ymd('2022/07/25', tz = 'America/Sao_Paulo')
+  week: "Week 3"
+  slug: 'Week%203'
+  rpubs: 'https://rpubs.com/AndersonUyekita/course-project_regression-models'
+  project_repo: 'https://github.com/AndersonUyekita/regression-models_course-project'
+  codebook: 'https://github.com/AndersonUyekita/regression-models_course-project/blob/master/codebook.md'
+  instructions: 'https://github.com/AndersonUyekita/regression-models_course-project/blob/master/instructions.md'
+always_allow_html: true
+---
+
+```{r setup,include=FALSE}
+knitr::opts_chunk$set(echo=TRUE,cache=TRUE,message=FALSE,warning=FALSE)
+library(rmarkdown)
+library(matahari)
+```
+
+`r if(!knitr::is_html_output()) {sprintf(fmt = "* &#x1f468;&#x1F3FB;&#x200d;&#x1f4bb; Author: %s", params$author)}`
+`r sprintf(fmt = "* &#x1f4da; Specialization: [%s](%s){target='_blank' rel='noopener'}", params$specialization, params$specialization_url)`
+`r sprintf(fmt = "* &#x1f4d6; Course: [%s](%s){target='_blank' rel='noopener'}", params$course, params$course_url)`
+    `r sprintf(fmt = "* &#x1F9D1;&#x200d;&#x1F3EB; Instructor: %s", params$instructor)`
+`r sprintf(fmt = "* &#x1F4C6; %s", params$week)`
+    `r sprintf(fmt = "* &#x1F6A6; Start: %s", format(params$course_start, "%A, %d %B %Y"))`
+    `r sprintf(fmt = "* &#x1F3C1; Finish: %s", format(params$course_finish, "%A, %d %B %Y"))`
+`r if(!knitr::is_html_output()) {sprintf(fmt = "* &#x1F30E; Rpubs: [Interactive Document](%s)", params$rpubs)}else{sprintf(fmt = "* &#x1F4E6; Github Repository: [Static Document](%s){target='_blank' rel='noopener'}", params$project_repo)}`
+
+--------------------------------------------------------------------------------
+
+## Brief Analysis about Manual and Automatic Transmissions
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/AndersonUyekita/regression-models_practice_quiz/main?urlpath=rstudio)
+
+```{r record_start,echo=FALSE}
+# Start the command recording.
+matahari::dance_start(value = FALSE, contents = FALSE)
+```
+
+
+## Synopsis
+
+
+## 1. Introduction
+
+The Optional Quiz Assignment wants to analyze the relationship between income and major categories. This study should be performed using the `college` dataset from the `collegeIncome` library.
+
+## 2. Objectives
+
+This Practice Quiz aims to answer the following question:
+
+> Based on your analysis, would you conclude that there is a significant association between college major category and income?
+
+- [ ] Yes
+- [ ] No
+
+## 3. Requeriments
+
+It is necessary to use the following packages to perform this experiment.
+
+```{r libraries,echo=TRUE}
+# Loading packages
+library(collegeIncome)
+library(tidyverse)
+library(magrittr)
+library(ggplot2)
+library(explore)
+library(kableExtra)
+library(DT)
+library(PerformanceAnalytics)
+library(DiagrammeR)
+library(GGally)
+```
+
+### 3.1. Reproducibility
+
+If you want to reproduce it, please, fork the experiment repository hosted on Github.
+
+* [Github Repository](https://github.com/AndersonUyekita/regression-models_practice_quiz)
+
+
+### 3.2. Loading Data
+
+Following the practice quiz instructions, I have used the `college` dataset from the `collegeIncome` package.
+
+```{r loading_data,echo=TRUE}
+# Loading college data to environment.
+data("college")
+
+# Creating a copy of college data.
+df_college <- college
+```
+
+### 3.3. Codebook
+
+From the assignment instructions:
+
+* rank: Rank by median earnings
+* major_code: Major code
+* major: Major description
+* major_category: Category of major
+* total: Total number of people with major
+* sample_size: Sample size of full-time, year-round individuals used for income/earnings estimates: p25th, median, p75th
+* p25th: 25th percentile of earnings
+* median: Median earnings of full-time, year-round workers
+* p75th: 75th percentile of earnings
+* perc_men: % men with major (out of total)
+* perc_women: % women with major (out of total)
+* perc_employed: % employed (out of total)
+* perc_employed_fulltime: % employed 35 hours or more (out of employed)
+* perc_employed_parttime: % employed less than 35 hours (out of employed)
+* perc_employed_fulltime_yearround: % employed at least 50 weeks and at least 35 hours (out of employed and full-time)
+* perc_unemployed: % unemployed (out of employed)
+* perc_college_jobs: % with job requiring a college degree (out of employed)
+* perc_non_college_jobs: % with job not requiring a college degree (out of employed)
+* perc_low_wage_jobs: % in low-wage service jobs (out of total)
+
+## 4. Exploratory Analysis
+
+### 4.1. Dataset Dimensions
+
+The `college` dataset has 173 observations and 19 variables.
+
+```{r dimensions,echo=TRUE}
+# Checking the number of observations and variables.
+dim(df_college)
+```
+
+### 4.2. Head
+
+The first 10 rows of the dataset:
+
+```{r head,echo=FALSE}
+# Printing the first five rows.
+if (knitr::is_html_output()) {
+    # RPUB
+    df_college %>% DT::datatable(options = list(searching = FALSE,scrollX = T))
+} else {
+    # Github
+    head(df_college, 10) %>% kbl()
+}
+```
+
+### 4.3. Tail
+
+The last three rows of the dataset:
+
+```{r tail,echo=FALSE}
+# Printing the first five rows.
+if (knitr::is_html_output()) {
+    # RPUB
+    df_college %>% DT::datatable(options = list(searching = FALSE, scrollX = TRUE),
+                                 callback = JS('table.page("last").draw(false);'))
+} else {
+    # Github
+    tail(df_college, 10) %>% kbl()
+}
+```
+
+### 4.4. Structure
+
+Let's check the variables' types.
+
+```{r str,echo=FALSE}
+# Checking the data types.
+df_college %>% str()
+```
+
+One observes there are problems with variables types:
+
+* `major`: Should convert it into a category;
+* `major_category`: Should convert it into a category.
+
+Also, some variables are not helpful for the analysis:
+
+* `rank`: There is no info about how this rank was calculated.
+* `major_code`: The major code is a primary key, so there is no reason to use it in a deeper analysis.
+
+### 4.5. Summary
+
+To confirm the presence of NA observations, categorical variables as characters, and other problems. Let's print the `summary()`.
+
+```{r summary,echo=FALSE}
+# Printing the summary.
+summary(df_college)
+```
+
+### 4.6. Data Visualization
+
+#### 4.6.1. Numeric Variables
+
+The following graph shows a density plot of each numeric variable.
+
+```{r explore_numeric,echo=FALSE,fig.height=18}
+# Checking the data types.
+df_college %>% 
+    dplyr::select(-c(rank, major_code, major, major_category)) %>%
+    explore_all()
+```
+
+Unfortunately, some variables have `NA` values, which will be required to clean them. So, the following observations have one or more `NA`, `Inf`, or invalid content.
+
+```{r observations_issues,echo=FALSE}
+# Printing observations with problems.
+if (knitr::is_html_output()) {
+    # RPUB
+    df_college %>%
+        dplyr::filter(if_any(everything(), is.na)) %>%
+        DT::datatable(options = list(searching = FALSE, scrollX = TRUE),
+                                 callback = JS('table.page("last").draw(false);'))
+} else {
+    # Github
+    df_college %>%
+        dplyr::filter(if_any(everything(), is.na)) %>%
+        kbl()
+}
+```
+
+`Industrial And Manufacturing Engineering` and `Computer And Information Systems` majors contain invalid values.
+
+#### 4.6.2. Categorical Variables
+
+There is no way to plot a visible graph to `major` because there are 173 categories in this variable. For this reason, I will not plot any graph for it.
+
+As expected, the `major` variables have 173 unique values, meaning each row corresponds to a unique major. However, remember that I have not inspected each `major` name, so I can not ensure if it contains typos or the same major with different notations.
+
+```{r explore_categorical_major_category,echo=FALSE,fig.height=3}
+# Checking the data types.
+df_college %>% 
+    dplyr::select(major, major_category) %>%
+    dplyr::mutate(major = factor(major), major_category = factor(major_category)) %>%
+    explore(major_category)
+```
+
+The `major_category` variable have 16 categories. Table 1 summarizes all majors in respect of `total` and `sample_size.`
+
+```{r major_category_summary,echo=FALSE}
+# Counting the number of major for each major_category.
+df_college %>%
+    group_by(major_category) %>%
+    summarize(number_major = n(), total = sum(total), sample_size = sum(sample_size)) %>%
+    arrange(desc(number_major)) %>%
+    kbl() %>%
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = TRUE)
+```
+
+Highlights:
+
+* `Interdisciplinary` corresponds to 0.6% of total major courses. In absolute terms, this category has only one major course (`Multi/Interdisciplinary Studies`);
+* Due to the `size_sample` and `total` of the `Interdisciplinary` category, it is convenient to remove it.
+* `Engineering` is the `major_category` with the most number of majors, and;
+* `Business` is the `major_category` with the most number of students..
+
+#### 4.6.3. Variables Correlation
+
+I will show the scatter plot with histogram and correlation between each variable.
+
+```{r data_correlation,echo=FALSE,fig.height=18, fig.width=18}
+# Printing the correlation, histogram and scatter plot.
+df_college %>% 
+    dplyr::mutate(
+        major_code = factor(major_code),
+        major_category = factor(major_category)
+    ) %>%
+    dplyr::select(-c(rank, major_code, major, major_category, p25th, p75th)) %>%
+    drop_na() %>%
+    chart.Correlation(histogram = TRUE, pch = 19)
+```
+
+Highlights:
+
+* `total` and `sample_size` have a high correlation because the greater the number of people with that major, the greater the sample_size. It is necessary to drop one out of two;
+* `perc_women` and `perc_men` have a perfect correlation, which is expected because they are complementary;
+* `perc_employed` and `perc_unemployed` also have a perfect correlation, which is expected because they are complementary;
+* `perc_employed_fulltime` and `perc_employed_parttime` have high correlation. Given that you are employed, you only have two options, full-time or part-time, so those variables are also complementary;
+* `perc_college_jobs` and `perc_non_college_jobs` have high correlation. Given that you are employed, you only have two options to the job type, college or non-college, so those variables are also complementary, and;
+* `perc_low_wage_jobs` is positive correlated with `perc_non_college_jobs` and negative correlated with `perc_college_jobs` because it is expected that college jobs has greater payloads in comparison to non-college jobs, and.
+
+## 5. Model Selection
+
+Based on section 4, Exploratory Data Analysis, there are several variables that I cannot use in the Model Selection due to a high correlation. For this reason, I will drop the following variables:
+
+* `rank`;
+* `major_code`;
+* `major`;
+* `sample_size`;
+* `perc_men`;
+* `perc_unemployed`;
+* `perc_employed_fulltime`;
+* `perc_college_jobs`;
+* `p25th`, and;
+* `p75th`.
+
+The figure below shows the variable relationship.
+
+```{r digraph,echo=FALSE}
+# Creating a diagram to explain the job condition.
+mermaid("
+graph LR
+  X(Begin)-->A[total]
+  A-->B{Am I employed?}
+  B-->G[perc_employed]
+  G-->C{Is it full-time or part-time job?}
+  C-->E[perc_employed_fulltime]
+  E-->M{Full-time year arround?}
+  M-->N[perc_employed_fulltime_yearround]
+  C-->F[perc_employed_parttime]
+  G-->H{Is it college or non-college job?}
+  H-->J[perc_college_jobs]
+  H-->L[perc_non_college_jobs]
+  A-->I{Is it a low wage jobs?}
+  I-->K[perc_low_wage_jobs]
+  B-->D[perc_unemployed]
+  A-->O{Gender?}
+  O-->P[perc_men]
+  O-->Q[perc_women]
+")
+```
+
+### 5.1. Data Manipulation
+
+To convert the `college` dataset into a tidy dataset, it is mandatory to:
+
+* Subset the college dataset by selecting the variables: `major_category`, `total`, `perc_women`, `median`, `perc_employed`, `perc_employed_parttime`, `perc_employed_fulltime_yearround`, `perc_non_college_jobs`, and `perc_low_wage_jobs`;
+* Converting misclassified variables as characters into factors;
+* Removing `NA` observations, and;
+* Removing non-representative categories.
+
+```{r data_cleaning,echo=FALSE}
+# Data Cleaning.
+df_tidy <- df_college %>%
+    
+    # Subsetting
+    dplyr::select(-c(rank, major_code, major,sample_size, perc_men, perc_unemployed, perc_employed_fulltime, perc_college_jobs)) %>%
+    
+    # Converting character variables into factor.
+    dplyr::mutate(major_category = factor(major_category)) %>%
+    
+    # Dropping NA observations.
+    tidyr::drop_na() %>%
+    
+    # Removing non-representative categories.
+    dplyr::filter(major_category != "Interdisciplinary")
+```
+
+The tidy dataset has 9 variables and 170 observations.
+
+```{r}
+# Checking the tidy dataset dimensions.
+dim(df_tidy)
+```
+
+I will count the NA values using the `is.na()` function to ensure I have eliminated them.
+
+```{r testing_tidy_dataset}
+# Testing
+sum(is.na(df_tidy))
+```
+
+It is zero, which means there are no `NA` values.
+
+### 5.2. 25th, 50th or 75th Percentile
+
+Regardless of the dependent variable used as output, the three options have a high correlation. So, the figure below will show the correlation matrix between the 25th, 50th, and 75th percentile.
+
+```{r outcome_correlation,echo=FALSE}
+# Printing a correlation plot with 25th, 50th, and 75th percentile.
+df_tidy %>% 
+    dplyr::select(c(p25th, median, p75th)) %>%
+    chart.Correlation(histogram = TRUE, pch = 19)
+```
+
+Highlight:
+
+* `p25th`, `median`, and `p75th` are strongly positively correlated.
+
+Any of those used as the dependent variables will perform similar outcomes.
+
+### 5.3. Gender Income Gap
+
+According to the Bureau of Labor Statistics, the income gap between men and women is around 62 USD per week. Let's divide the women penetration in a given major category into 4 levels:
+
+* Category A: `perc_women` below 25%;
+* Category B: `perc_women` between 25% and 50%;
+* Category C: `perc_women` between 50% and 75%, and;
+* Category D: `perc_women` above 25%.
+
+```{r outcome_correlation_by_category,echo=FALSE}
+# Printing a correlation plot with 25th, 50th, and 75th percentile.
+df_tidy %>% 
+    
+    # Selecting income variables and perc_women.
+    dplyr::select(c(p25th, median, p75th, perc_women)) %>%
+    
+    
+    dplyr::mutate(a = factor(
+        case_when(
+            perc_women <  0.25 ~ "A",
+            perc_women >= 0.25 & perc_women < 0.50 ~ "B",
+            perc_women >= 0.50 & perc_women < 0.75 ~ "C",
+            perc_women >= 0.75 ~ "D"
+        )
+    )) %>%
+    
+        ggpairs(columns = 1:4, aes(color = a, alpha = 0.5))
+```
+
+The above graph shows no difference between high women penetration in the yearly income, which is a bit counter-intuitive due to the well-known gap between men's and women's wages. Moreover, all density curves are barely the same or with minor changes.
+
+### 5.4. Linear Regression
+
+Considering income is directly related to how much time you spend working, the `perc_employed_fulltime_yearround` will play a key role. Also, people who does not work in college jobs (`perc_non_college_jobs`) will have a lower wage, which is also related to `perc_low_wage_jobs`. From the section 5.3. Gender Income Gap, I will drop the gender variable (`perc_women`).
+
+
+$$median = \beta_0 + \beta_1 \cdot major\_category + \beta_2 \cdot perc\_employed\_fulltime\_yearround + \beta_3 \cdot perc\_non\_college\_jobs + \beta_4 \cdot perc\_low\_wage\_jobs$$
+
+```{r,echo=FALSE}
+# Fitting a model
+fit <- lm(data = df_tidy %>% select(-c(p25th, p75th)), formula = median ~ major_category + perc_employed_fulltime_yearround + perc_non_college_jobs + perc_low_wage_jobs - 1)
+
+# Printing the coefficients.
+summary(fit)$coeff %>% round(4)
+```
+
+From the above results of the `lm()` function, there is no statistical evidence that `perc_employed_fulltime_yearround`, `perc_non_college_jobs`, `perc_low_wage_jobs`, and the dummy variable `major_category` affect the income. Almost all p-value failed to reject the $H_0$ hypothesis.
+
+## 6. Results
+
+The answer to the posed question is: There is **no** significant association between college and major category and income.
+
+```{r record_save,echo=FALSE}
+# Save and stop the command recording.
+matahari::dance_save("./college_major_analysis.rds")
+matahari::dance_stop()
+```
