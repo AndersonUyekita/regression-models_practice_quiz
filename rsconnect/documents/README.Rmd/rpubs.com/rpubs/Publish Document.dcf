@@ -1,0 +1,11 @@
+name: Publish Document
+title:
+username:
+account: rpubs
+server: rpubs.com
+hostUrl: rpubs.com
+appId: https://api.rpubs.com/api/v1/document/927069/7fde5b563ec74a74b1978dbea604b005
+bundleId: https://api.rpubs.com/api/v1/document/927069/7fde5b563ec74a74b1978dbea604b005
+url: http://rpubs.com/AndersonUyekita/927069
+when: 1658798287.13339
+lastSyncTime: 1658798287.1334

@@ -14,7 +14,7 @@
     -   🚦 Start: Saturday, 23 July 2022
     -   🏁 Finish: Monday, 25 July 2022
 -   🌎 Rpubs: [Interactive
-    Document](https://rpubs.com/AndersonUyekita/course-project_regression-models)
+    Document](https://rpubs.com/AndersonUyekita/practice-quiz_regression_models)
 
 ------------------------------------------------------------------------
 
@@ -23,6 +23,10 @@
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/AndersonUyekita/regression-models_practice_quiz/main?urlpath=rstudio)
 
 ## Synopsis
+
+Based on an analysis involving 173 observations and 19 variables, there
+is no sufficient evidence to affirm that the major category has a
+significant association with income.
 
 ## 1. Introduction
 

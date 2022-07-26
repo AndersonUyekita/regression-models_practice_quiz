@@ -2,7 +2,6 @@
 title: '`Practice Quiz` Regression Models'
 author: '`r if(knitr::is_html_output()) {"&#x1f468;&#x1F3FB;&#x200d;&#x1f4bb; Anderson H Uyekita"} else {NULL}`'
 output:
-  github_document: default
   html_document:
     self_contained: true
     toc: true
@@ -10,6 +9,7 @@ output:
     toc_float:
       collapsed: false
       smooth_scroll: true
+  github_document: default
 params:
   author: 'Anderson H Uyekita'
   course: 'Regression Models'
@@ -21,8 +21,8 @@ params:
   course_finish: !r lubridate::ymd('2022/07/25', tz = 'America/Sao_Paulo')
   week: "Week 3"
   slug: 'Week%203'
-  rpubs: 'https://rpubs.com/AndersonUyekita/course-project_regression-models'
-  project_repo: 'https://github.com/AndersonUyekita/regression-models_course-project'
+  rpubs: 'https://rpubs.com/AndersonUyekita/practice-quiz_regression_models'
+  project_repo: 'https://github.com/AndersonUyekita/regression-models_practice_quiz'
   codebook: 'https://github.com/AndersonUyekita/regression-models_course-project/blob/master/codebook.md'
   instructions: 'https://github.com/AndersonUyekita/regression-models_course-project/blob/master/instructions.md'
 always_allow_html: true
@@ -54,9 +54,9 @@ library(matahari)
 matahari::dance_start(value = FALSE, contents = FALSE)
 ```
 
-
 ## Synopsis
 
+Based on an analysis involving 173 observations and 19 variables, there is no sufficient evidence to affirm that the major category has a significant association with income.
 
 ## 1. Introduction
 
