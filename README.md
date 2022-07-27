@@ -3,9 +3,9 @@
 
 -   👨🏻‍💻 Author: Anderson H Uyekita
 -   📚 Specialization: <a
-    href="https://www.coursera.org/specializations/data-science-foundations-r"
-    target="_blank" rel="noopener">Data Science: Foundations using R
-    Specialization</a>
+    href="https://www.coursera.org/specializations/data-science-statistics-machine-learning"
+    target="_blank" rel="noopener">Data Science: Statistics and Machine
+    Learning Specialization</a>
 -   📖 Course:
     <a href="https://www.coursera.org/learn/regression-models"
     target="_blank" rel="noopener">Regression Models</a>
@@ -2158,7 +2158,7 @@ will have a lower wage, which is also related to `perc_low_wage_jobs`.
 From the section 5.3. Gender Income Gap, I will drop the gender variable
 (`perc_women`).
 
-![median = \\beta_0 + \\beta_1 \\cdot major\\\_category + \\beta_2 \\cdot perc\\\_employed\\\_fulltime\\\_yearround + \\beta_3 \\cdot perc\\\_non\\\_college\\\_jobs + \\beta_4 \\cdot perc\\\_low\\\_wage\\\_jobs](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;median%20%3D%20%5Cbeta_0%20%2B%20%5Cbeta_1%20%5Ccdot%20major%5C_category%20%2B%20%5Cbeta_2%20%5Ccdot%20perc%5C_employed%5C_fulltime%5C_yearround%20%2B%20%5Cbeta_3%20%5Ccdot%20perc%5C_non%5C_college%5C_jobs%20%2B%20%5Cbeta_4%20%5Ccdot%20perc%5C_low%5C_wage%5C_jobs "median = \beta_0 + \beta_1 \cdot major\_category + \beta_2 \cdot perc\_employed\_fulltime\_yearround + \beta_3 \cdot perc\_non\_college\_jobs + \beta_4 \cdot perc\_low\_wage\_jobs")
+![median = \beta_0 + \beta_1 \cdot major\\\_category + \beta_2 \cdot perc\\\_employed\\\_fulltime\\\_yearround + \beta_3 \cdot perc\\\_non\\\_college\\\_jobs + \beta_4 \cdot perc\\\_low\\\_wage\\\_jobs](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;median%20%3D%20%5Cbeta_0%20%2B%20%5Cbeta_1%20%5Ccdot%20major%5C_category%20%2B%20%5Cbeta_2%20%5Ccdot%20perc%5C_employed%5C_fulltime%5C_yearround%20%2B%20%5Cbeta_3%20%5Ccdot%20perc%5C_non%5C_college%5C_jobs%20%2B%20%5Cbeta_4%20%5Ccdot%20perc%5C_low%5C_wage%5C_jobs "median = \beta_0 + \beta_1 \cdot major\_category + \beta_2 \cdot perc\_employed\_fulltime\_yearround + \beta_3 \cdot perc\_non\_college\_jobs + \beta_4 \cdot perc\_low\_wage\_jobs")
 
     ##                                                     Estimate Std. Error t value
     ## major_categoryAgriculture & Natural Resources     13230.9994  10328.471  1.2810
